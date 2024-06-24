@@ -12,6 +12,7 @@ PATH="$PATH:""$HOME"'/.pub-cache/bin'
 PATH="$PATH:""$HOME"'/.bun/bin'
 PATH="$PATH:""$HOME"'/Library/Application\ Support/JetBrains/Toolbox/scripts'
 PATH="$PATH:""$HOME"'/.docker/bin'
+PATH="$PATH:""$HOME"'/.dotfiles/bin'
 
 export COMPOSER_ALLOW_SUPERUSER="1"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
