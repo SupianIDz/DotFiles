@@ -1,4 +1,6 @@
 for file in ~/.dotfiles/shell/{variable,xaliases,function}.zsh; do
-	# shellcheck source=src/util.sh
+	# shellcheck source=./${file}
 	[ -r "$file" ] && [ -f "$file" ] && source "${file}"
 done
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
