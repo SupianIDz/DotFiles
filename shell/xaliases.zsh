@@ -1,11 +1,15 @@
-alias -- phpunit='vendor/bin/phpunit'
-alias -- hostctl='sudo hostctl'
-alias -- warp='warp-cli'
-alias -- pint='vendor/bin/pint'
-alias -- mkdir='mkdir -p'
-alias -- testbench='vendor/bin/testbench'
-alias -- pub='flutter pub'
+# PHP
+alias -- artisan='php artisan'
 alias -- phpstan='vendor/bin/phpstan'
+alias -- phpunit='vendor/bin/phpunit'
+alias -- pint='vendor/bin/pint'
+alias -- testbench='vendor/bin/testbench'
+
+# Misc
+alias -- hostctl='sudo hostctl'
+alias -- mkdir='mkdir -p'
+alias -- pub='flutter pub'
+alias -- warp='warp-cli'
 
 # Lock The Screen
 alias -- afk="osascript -e 'tell application \"System Events\" to keystroke \"q\" using {command down,control down}'"
