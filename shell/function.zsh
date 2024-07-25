@@ -76,7 +76,7 @@ function phpv() {
       echo "PHP version $desired is not available."
     fi
   else
-    echo "Asu"
+    sudo update-alternatives --config php
   fi
 }
 
