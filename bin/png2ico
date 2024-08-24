@@ -11,7 +11,6 @@ if isMacOS; then
   fi
 fi
 
-# Memeriksa apakah argumen input diberikan
 if [ -z "$1" ]; then
   echo "USAGE : $0 <input> [output]"
   exit 1
@@ -20,12 +19,12 @@ fi
 input="$1"
 
 if [ -z "$2" ]; then
-  output="${input%.*}/favicon.ico"
+  output="${input%.*}.ico"
 else
   output="$2"
 fi
 
 magick "$input" -background none -resize 128x128 -density 128x128 "$output"
 
-echo "Completed : $output"
+echo "$output"
 
