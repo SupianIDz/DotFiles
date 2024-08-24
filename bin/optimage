@@ -5,6 +5,10 @@
 # optimage /path/to/dir --type=jpg
 # optimage /path/to/dir --type=png
 
+isMacOS() {
+  [[ "$(uname)" == "Darwin" ]]
+}
+
 # Handle arguments
 for arg in "$@"; do
     case $arg in
@@ -32,19 +36,25 @@ fi
 
 # Run commands
 if [[ "$IMAGE_TYPE" = "png" ]] || [[ "$IMAGE_TYPE" = "png|jpg" ]]; then
-    if ! brew list | grep -q "^optipng\$"; then
+
+  if isMacOS; then
+    if ! brew list | (grep -q  "^optipng\$"; ret=$?; cat >/dev/null; exit $ret) then
         echo "optipng is not installed. Please install it first using brew."
         exit 1
     fi
+  fi
 
-    find "$DIR_PATH" -type f -iname "*.png" -exec optipng -nb -nc {} \;
+  find "$DIR_PATH" -type f -iname "*.png" -exec optipng -nb -nc {} \;
 fi
 
 if [[ "$IMAGE_TYPE" = "jpg" ]] || [[ "$IMAGE_TYPE" = "png|jpg" ]]; then
-    if ! brew list | grep -q "^jpegoptim\$"; then
+
+  if isMacOS; then
+    if ! brew list | (grep -q  "^jpegoptim\$"; ret=$?; cat >/dev/null; exit $ret) then
         echo "jpegoptim is not installed. Please install it first using brew."
         exit 1
     fi
+  fi
 
-    find "$DIR_PATH" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -exec jpegoptim -f --strip-all {} \;
+  find "$DIR_PATH" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -exec jpegoptim -f --strip-all {} \;
 fi
