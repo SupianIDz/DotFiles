@@ -19,7 +19,7 @@ fi
 input="$1"
 
 if [ -z "$2" ]; then
-  output="${input%.*}.ico"
+  output="${input%.*}.webp"
 else
   output="$2"
 fi
