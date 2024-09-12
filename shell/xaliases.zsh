@@ -1,5 +1,6 @@
 # PHP
 alias -- artisan='php artisan'
+alias -- pest='vendor/bin/pest'
 alias -- phpstan='vendor/bin/phpstan'
 alias -- phpunit='vendor/bin/phpunit'
 alias -- pint='vendor/bin/pint'
