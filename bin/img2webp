@@ -5,7 +5,7 @@ isMacOS() {
 }
 
 if isMacOS; then
-  if ! brew list | (grep -q  "^cwebp\$"; ret=$?; cat >/dev/null; exit $ret) then
+  if ! brew list | (grep -q  "^webp\$"; ret=$?; cat >/dev/null; exit $ret) then
     echo "cwebp is not installed. Please install it first using brew."
     exit 1
   fi
