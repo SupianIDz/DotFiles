@@ -6,6 +6,9 @@ alias -- phpunit='vendor/bin/phpunit'
 alias -- pint='vendor/bin/pint'
 alias -- testbench='vendor/bin/testbench'
 
+# Jetbrains IDE
+alias -- storm='phpstorm'
+
 # Misc
 alias -- hostctl='sudo hostctl'
 alias -- mkdir='mkdir -p'
