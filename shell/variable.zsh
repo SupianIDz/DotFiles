@@ -20,7 +20,9 @@ fi
 
 export COMPOSER_ALLOW_SUPERUSER="1"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
-export MYSQL_ROOT_PASSWORD="exploded"
+
+export MYSQL_HOST=192.168.1.3
+export MYSQL_PASS="exploded"
 
 NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

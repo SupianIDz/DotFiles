@@ -1,30 +1,30 @@
 function db() {
   if [ "$1" = "create" ]; then
-    if mysql -h 0.0.0.0 -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $2; CREATE DATABASE $2"; then
+    if mysql -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" -e "DROP DATABASE IF EXISTS $2; CREATE DATABASE $2"; then
       echo "DATABASE $2 SUCCESSFULLY CREATED."
     else
       echo "FAILED TO CREATE DATABASE $2."
     fi
   elif [ "$1" = "drop" ]; then
-    if mysql -h 0.0.0.0 -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" -e "DROP DATABASE $2"; then
+    if mysql -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" -e "DROP DATABASE $2"; then
       echo "DATABASE $2 SUCCESSFULLY DROPPED."
     else
       echo "FAILED TO DROP DATABASE $2."
     fi
   elif [ "$1" = "list" ]; then
-    if mysql -h 0.0.0.0 -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW DATABASES"; then
+    if mysql -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" -e "SHOW DATABASES"; then
       echo "DATABASES LISTED SUCCESSFULLY."
     else
       echo "FAILED TO LIST DATABASES."
     fi
   elif [ "$1" = "import" ]; then
-    if mysql -h 0.0.0.0 -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" $2 <$3; then
+    if mysql -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" $2 <$3; then
       echo "DATABASE $2 SUCCESSFULLY IMPORTED FROM $3."
     else
       echo "FAILED TO IMPORT DATABASE $2 FROM $3."
     fi
   elif [ "$1" = "export" ]; then
-    if mysqldump -h 0.0.0.0 -P 3306 -u root -p"$MYSQL_ROOT_PASSWORD" $2 >$3; then
+    if mysqldump -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" $2 >$3; then
       echo "DATABASE $2 SUCCESSFULLY EXPORTED TO $3."
     else
       echo "FAILED TO EXPORT DATABASE $2 TO $3."
