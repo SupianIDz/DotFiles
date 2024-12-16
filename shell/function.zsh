@@ -1,3 +1,11 @@
+function pint() {
+    if [ -f "./pint" ]; then
+        ./pint "$@"
+    else
+        vendor/bin/pint "$@"
+    fi
+}
+
 function db() {
   if [ "$1" = "create" ]; then
     if mysql -h "$MYSQL_HOST" -P 3306 -u root -p"$MYSQL_PASS" -e "DROP DATABASE IF EXISTS $2; CREATE DATABASE $2"; then
