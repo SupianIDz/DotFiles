@@ -1,0 +1,52 @@
+#!/usr/bin/env zsh
+
+isMacOS() {
+    [[ "$(uname)" == "Darwin" ]]
+}
+
+if isMacOS; then
+
+    # Hide the last login message
+    touch "$HOME"/.hushlogin
+
+    # Create the .local/bin directory
+    mkdir -p "$HOME"/.local/bin
+
+    # Install Fonts
+    brew install font-iosevka-nerd-font
+
+    # Install Apps
+    echo 'Install ZSH Plugins'
+    echo '-------------------'
+    brew install zsh-autosuggestions
+    brew install zsh-syntax-highlighting
+
+    echo 'Install NVM'
+    echo '-----------'
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+    echo 'Install PHP'
+    echo '-----------'
+    brew tap shivammathur/php
+    brew install shivammathur/php/php@8.4
+    brew install shivammathur/php/php@8.3
+    brew install shivammathur/php/php@8.2
+    brew install shivammathur/php/php@8.1
+
+    # Install Composer
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+
+    sudo mv composer.phar ~/.local/bin/composer
+
+    echo 'Install Laravel Valet'
+    echo '---------------------'
+    composer global require laravel/valet
+    valet install
+
+    echo 'Install MySQL'
+    echo '-------------'
+    brew install mysql
+
+fi

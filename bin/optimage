@@ -1,0 +1,60 @@
+#!/usr/bin/env zsh
+
+# USAGE :
+# optimage /path/to/dir
+# optimage /path/to/dir --type=jpg
+# optimage /path/to/dir --type=png
+
+isMacOS() {
+  [[ "$(uname)" == "Darwin" ]]
+}
+
+# Handle arguments
+for arg in "$@"; do
+    case $arg in
+    --type=*)
+        IMAGE_TYPE="${arg#*=}"
+        shift
+        ;;
+    *)
+        DIR_PATH="$1"
+        shift
+        ;;
+    esac
+done
+
+# Check variables
+if [[ -z "$DIR_PATH" ]]; then
+    echo "ERROR: Directory path must be provided"
+    exit 1
+fi
+
+# Assume both if type is not provided
+if [[ -z "$IMAGE_TYPE" ]]; then
+    IMAGE_TYPE="png|jpg"
+fi
+
+# Run commands
+if [[ "$IMAGE_TYPE" = "png" ]] || [[ "$IMAGE_TYPE" = "png|jpg" ]]; then
+
+  if isMacOS; then
+    if ! brew list | (grep -q  "^optipng\$"; ret=$?; cat >/dev/null; exit $ret) then
+        echo "optipng is not installed. Please install it first using brew."
+        exit 1
+    fi
+  fi
+
+  find "$DIR_PATH" -type f -iname "*.png" -exec optipng -nb -nc {} \;
+fi
+
+if [[ "$IMAGE_TYPE" = "jpg" ]] || [[ "$IMAGE_TYPE" = "png|jpg" ]]; then
+
+  if isMacOS; then
+    if ! brew list | (grep -q  "^jpegoptim\$"; ret=$?; cat >/dev/null; exit $ret) then
+        echo "jpegoptim is not installed. Please install it first using brew."
+        exit 1
+    fi
+  fi
+
+  find "$DIR_PATH" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -exec jpegoptim -f --strip-all {} \;
+fi
