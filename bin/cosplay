@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Function to check if unar is installed
+check_unar() {
+    if ! command -v unar &> /dev/null; then
+        echo "unar is not installed!"
+        echo "To install unar:"
+
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            echo "For macOS, run:"
+            echo "brew install unar"
+        elif [[ -f /etc/lsb-release ]] || [[ -f /etc/debian_version ]]; then
+            echo "For Ubuntu/Debian, run:"
+            echo "apt install unar"
+        else
+            echo "Please install unar for your system"
+        fi
+        exit 1
+    fi
+}
+
+# Check if unar is installed
+check_unar
+
+# Find and extract .rar files
+find . -name "*.rar" -type f -exec unar -p "cosplaytele" {} \;
