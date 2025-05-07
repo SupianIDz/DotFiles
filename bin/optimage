@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# OPTIMIZE Image
+
 # USAGE :
 # optimage /path/to/dir
 # optimage /path/to/dir --type=jpg

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# PVM - PHP Version Manager
+# https://github.com/smoqadam/pvm
+
 set -e
 
 PVM_DIR="$HOME/.pvm"
@@ -63,7 +66,7 @@ detect_package_manager() {
 install_version() {
     local version=$1
     local install_dir="$VERSIONS_DIR/$version"
-    
+
     if [ -d "$install_dir" ]; then
         echo "PHP $version is already installed"
         return
@@ -73,7 +76,7 @@ install_version() {
     mkdir -p "$install_dir"
 
     local pkg_manager=$(detect_package_manager)
-    
+
     case $pkg_manager in
         "brew")
             install_with_brew "$version" "$install_dir"
@@ -93,9 +96,9 @@ install_version() {
 install_with_brew() {
     local version=$1
     local install_dir=$2
-    
+
     brew install php@$version
-    
+
     ln -sf "$(brew --prefix)/opt/php@$version/bin/php" "$install_dir/php"
     ln -sf "$(brew --prefix)/opt/php@$version/bin/phpize" "$install_dir/phpize"
     ln -sf "$(brew --prefix)/opt/php@$version/bin/php-config" "$install_dir/php-config"
@@ -106,16 +109,16 @@ install_with_brew() {
 install_with_apt() {
     local version=$1
     local install_dir=$2
-    
+
     if ! grep -q "^deb.*ppa:ondrej/php" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
         sudo add-apt-repository -y ppa:ondrej/php
         sudo apt-get update
     fi
-    
+
     sudo apt-get install -y php$version php$version-cli php$version-common \
         php$version-curl php$version-mbstring php$version-xml php$version-zip \
         php$version-mysql php$version-gd
-    
+
     ln -sf "/usr/bin/php$version" "$install_dir/php"
     ln -sf "/usr/bin/phpize$version" "$install_dir/phpize"
     ln -sf "/usr/bin/php-config$version" "$install_dir/php-config"
@@ -124,16 +127,16 @@ install_with_apt() {
 install_with_dnf() {
     local version=$1
     local install_dir=$2
-    
+
     if ! rpm -q remi-release >/dev/null 2>&1; then
         sudo dnf install -y https://rpms.remirepo.net/enterprise/remi-release-$(rpm -E %rhel).rpm
     fi
-    
+
     sudo dnf module reset php
     sudo dnf module enable -y php:remi-$version
     sudo dnf install -y php php-cli php-common php-curl php-mbstring \
         php-xml php-zip php-mysql php-gd
-    
+
     ln -sf "/usr/bin/php" "$install_dir/php"
     ln -sf "/usr/bin/phpize" "$install_dir/phpize"
     ln -sf "/usr/bin/php-config" "$install_dir/php-config"
@@ -141,7 +144,7 @@ install_with_dnf() {
 
 use_version() {
     local version=$1
-    
+
     if [ ! -d "$VERSIONS_DIR/$version" ]; then
         echo "PHP $version is not installed"
         return 1
@@ -149,15 +152,15 @@ use_version() {
 
     rm -f "$CURRENT_SYMLINK"
     ln -s "$VERSIONS_DIR/$version" "$CURRENT_SYMLINK"
-    
+
     set_current_version "$version"
     echo "Now using PHP $version"
-    
+
     local shell_config="$HOME/.bashrc"
     if [ -f "$HOME/.zshrc" ]; then
         shell_config="$HOME/.zshrc"
     fi
-    
+
     if ! grep -q "PVM_DIR" "$shell_config"; then
         echo "export PVM_DIR=\"$PVM_DIR\"" >> "$shell_config"
         echo "export PATH=\"\$PVM_DIR/current:\$PATH\"" >> "$shell_config"
@@ -168,7 +171,7 @@ use_version() {
 list_versions() {
     echo "Installed versions:"
     current=$(get_current_version)
-    
+
     while IFS= read -r version; do
         if [ "$version" == "$current" ]; then
             echo "* $version"
@@ -181,7 +184,7 @@ list_versions() {
 uninstall_version() {
     local version=$1
     local version_dir="$VERSIONS_DIR/$version"
-    
+
     if [ ! -d "$version_dir" ]; then
         echo "PHP $version is not installed"
         return 1
@@ -193,7 +196,7 @@ uninstall_version() {
     fi
 
     local pkg_manager=$(detect_package_manager)
-    
+
     case $pkg_manager in
         "brew")
             brew uninstall php@$version
