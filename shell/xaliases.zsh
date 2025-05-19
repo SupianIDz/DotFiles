@@ -20,4 +20,4 @@ alias -- warp='warp-cli'
 alias -- afk="osascript -e 'tell application \"System Events\" to keystroke \"q\" using {command down,control down}'"
 
 # Check IP address
-alias ip="curl ifconfig.me/ip ; echo"
+alias myip="curl ifconfig.me/ip ; echo"
