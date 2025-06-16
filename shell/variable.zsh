@@ -24,7 +24,7 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 export MYSQL_HOST=localhost
 export MYSQL_PASS="exploded"
 
-export DOCKER_HOST=tcp://192.168.1.3:2375
+# export DOCKER_HOST=tcp://192.168.1.3:2375
 
 NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
