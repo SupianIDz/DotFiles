@@ -9,6 +9,7 @@ PATH="$PATH:""$HOME"'/.local/bin'
 PATH="$PATH:""$HOME"'/.local/share/flutter/bin'
 PATH="$PATH:""$HOME"'/.pub-cache/bin'
 PATH="$PATH:""$HOME"'/.yarn/bin/'
+PATH="$PATH:""$HOME"'/.cargo/bin'
 
 if isMacOS; then
   PATH="$PATH:""$HOME"'/Library/Android/cmdline-tools/latest/bin'
@@ -16,6 +17,7 @@ if isMacOS; then
   PATH="$PATH:""$HOME"'/Library/Android/platform-tools'
   PATH="$PATH:""$HOME"'/Library/Application\ Support/JetBrains/Toolbox/scripts'
   PATH="$PATH:"'/opt/homebrew/opt/mysql-client/bin'
+
 fi
 
 export COMPOSER_ALLOW_SUPERUSER="1"
