@@ -3,7 +3,7 @@
 # Default values
 INPUT=""
 USE_NO_DUPLICATE=false
-STATE_FILE=".mdrs.cache"
+STATE_FILE="$HOME/.mdrs.cache"
 OUTPUT_DIR="."
 FAIL_LOG=""
 
