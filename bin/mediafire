@@ -1,0 +1,101 @@
+#!/usr/bin/env zsh
+
+# Default values
+INPUT=""
+USE_NO_DUPLICATE=false
+STATE_FILE=".mdrs.cache"
+OUTPUT_DIR="."
+FAIL_LOG=""
+
+# ANSI colors
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RESET="\033[0m"
+
+# Check if 'mdrs' is available
+if ! command -v mdrs >/dev/null 2>&1; then
+  echo "${RED}❌ 'mdrs' command not found.${RESET}"
+  echo ""
+  echo "To install it, run:"
+  echo "  cargo install mediafire_rs"
+  echo ""
+  echo "More info: https://crates.io/crates/mediafire_rs"
+  exit 1
+fi
+
+help() {
+  local script_name=$(basename "$0")
+  echo "Usage:"
+  echo "  $script_name URL|FILE [options]"
+  echo ""
+  echo "Options:"
+  echo "  -n, --no-duplicate     Skip already-downloaded URLs"
+  echo "  -o, --output-dir DIR   Directory for downloaded files (default: current dir)"
+  echo "  -f, --fail-log FILE    File to log failed URLs"
+  echo "  -h, --help             Show this help message"
+  exit 0
+}
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --no-duplicate|-n)
+      USE_NO_DUPLICATE=true
+      shift
+      ;;
+    --output-dir|-o)
+      OUTPUT_DIR="$2"
+      shift 2
+      ;;
+    --fail-log|-f)
+      FAIL_LOG="$2"
+      shift 2
+      ;;
+    --help|-h)
+      help
+      ;;
+    *)
+      if [[ -z "$INPUT" ]]; then
+        INPUT="$1"
+        shift
+      else
+        echo "${RED}Unknown argument: $1${RESET}"
+        exit 1
+      fi
+      ;;
+  esac
+done
+
+
+# Function to download a single URL
+process() {
+  local url="$1"
+
+  if $USE_NO_DUPLICATE && [[ -f "$STATE_FILE" ]] && grep -Fxq "$url" "$STATE_FILE"; then
+    echo "${YELLOW}⏩ Skipped : $url${RESET}"
+    return
+  fi
+
+  echo "${GREEN}⬇️ Downloading: $url${RESET}"
+  if mdrs "$url" -o "$OUTPUT_DIR"; then
+    $USE_NO_DUPLICATE && echo "$url" >> "$STATE_FILE"
+  else
+    echo "${RED}❌ Failed: $url${RESET}"
+    [[ -n "$FAIL_LOG" ]] && echo "$url" >> "$FAIL_LOG"
+  fi
+}
+
+# Show help if no arguments are provided
+[[ $# -eq 0 ]] && help
+
+
+# Process input: either a file or single URL
+if [[ -f "$INPUT" ]]; then
+  while read -r line; do
+    [[ -z "$line" ]] && continue
+    process "$line"
+  done < "$INPUT"
+else
+  process "$INPUT"
+fi
