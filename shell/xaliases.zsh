@@ -5,6 +5,7 @@ alias -- phpstan='vendor/bin/phpstan'
 alias -- phpunit='vendor/bin/phpunit'
 alias -- pint='vendor/bin/pint'
 alias -- testbench='vendor/bin/testbench'
+alias -- siopen='./siopen'
 
 # Jetbrains IDE
 alias -- pstorm='phpstorm'
@@ -23,3 +24,4 @@ alias -- afk="osascript -e 'tell application \"System Events\" to keystroke \"q\
 
 # Check IP address
 alias myip="curl ifconfig.me/ip ; echo"
+
