@@ -97,13 +97,25 @@ install_with_brew() {
     local version=$1
     local install_dir=$2
 
-    brew install php@$version
+    # Ensure tap exists
+    if ! brew tap | grep -q "^shivammathur/php$"; then
+        brew tap shivammathur/php
+    fi
 
-    ln -sf "$(brew --prefix)/opt/php@$version/bin/php" "$install_dir/php"
-    ln -sf "$(brew --prefix)/opt/php@$version/bin/phpize" "$install_dir/phpize"
-    ln -sf "$(brew --prefix)/opt/php@$version/bin/php-config" "$install_dir/php-config"
-    ln -sf "$(brew --prefix)/opt/php@$version/bin/pecl" "$install_dir/pecl"
-    ln -sf "$(brew --prefix)/opt/php@$version/bin/composer" "$install_dir/composer"
+    brew install shivammathur/php/php@$version
+
+    local prefix
+    prefix="$(brew --prefix shivammathur/php/php@$version)"
+
+    ln -sf "$prefix/bin/php"        "$install_dir/php"
+    ln -sf "$prefix/bin/phpize"     "$install_dir/phpize"
+    ln -sf "$prefix/bin/php-config" "$install_dir/php-config"
+    ln -sf "$prefix/bin/pecl"       "$install_dir/pecl"
+
+    # Composer biasanya global
+    if command -v composer >/dev/null 2>&1; then
+        ln -sf "$(command -v composer)" "$install_dir/composer"
+    fi
 }
 
 install_with_apt() {
