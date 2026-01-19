@@ -23,9 +23,9 @@ fi
 export COMPOSER_ALLOW_SUPERUSER="1"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
-# export MYSQL_HOST=127.0.0.1
+export MYSQL_HOST=127.0.0.1
 export MYSQL_HOST=redmi.octopy.app
-export MYSQL_PASS="exploded"
+#export MYSQL_PASS="exploded"
 
 # export DOCKER_HOST=tcp://192.168.1.3:2375
 
